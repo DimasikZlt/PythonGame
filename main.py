@@ -6,6 +6,7 @@ pygame.init()
 pygame.display.set_caption('Змейка')
 head = pygame.image.load('Head.png')
 snake_body = pygame.image.load('Body.png')
+tale = pygame.image.load('Tail.png')
 
 screen_color = (0, 0, 0)
 light_green_color = (0, 150, 0)
@@ -32,7 +33,7 @@ snake = [
 
 screen = pygame.display.set_mode(screen_size)
 clock = pygame.time.Clock()
-tick_time = 10
+tick_time = 2
 
 
 def create_playing_field(game_screen):
@@ -95,13 +96,18 @@ while True:
 
     screen.fill(screen_color)
     create_playing_field(screen)
-    screen.blit(pygame.transform.rotate(head, snake[0][2]), (snake[0][0], snake[0][1]))
 
-    for body in range(1, len(snake)):
+    screen.blit(pygame.transform.rotate(head, snake[0][2]), (snake[0][0], snake[0][1]))
+    for body in range(1, len(snake) - 1):
         screen.blit(
             pygame.transform.rotate(snake_body, snake[body][2]),
             (snake[body][0], snake[body][1])
         )
+    screen.blit(pygame.transform.rotate(
+        tale,
+        snake[len(snake) - 1][2]),
+        (snake[len(snake) - 1][0], snake[len(snake) - 1][1])
+    )
 
     pygame.display.flip()
     clock.tick(tick_time)
