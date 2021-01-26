@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "cdf596c2d353636ac79e464434d67c35deb7dbfbb40070019ca172b2afa30fff"
+            "sha256": "db5a762f3725269b508ff4b175439ed34da67a72b2e828404601259d171282b9"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -62,6 +62,20 @@
             ],
             "index": "pypi",
             "version": "==2.0.1"
+        },
+        "pygame-menu": {
+            "hashes": [
+                "sha256:a00bbc07828feaebac83dd1b311bfcd51a706f501e8ac68f113eeeb8809b3a23",
+                "sha256:af7159cae41c8e2c3075d1f4fa0e2185bedb5e7a393e05dfb9b3e3e9e1d74ae6"
+            ],
+            "index": "pypi",
+            "version": "==3.5.5"
+        },
+        "pyperclip": {
+            "hashes": [
+                "sha256:9abef1e79ce635eb62309ecae02dfb5a3eb952fa7d6dce09c1aef063f81424d3"
+            ],
+            "version": "==1.8.1"
         }
     },
     "develop": {}
