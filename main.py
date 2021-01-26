@@ -1,12 +1,14 @@
+from random import randint
 import sys
 import pygame
 
 pygame.init()
 
 pygame.display.set_caption('Змейка')
-head = pygame.image.load('Head.png')
-snake_body = pygame.image.load('Body.png')
-tale = pygame.image.load('Tail.png')
+head = pygame.image.load('Image/Head.png')
+snake_body = pygame.image.load('Image/Body.png')
+tale = pygame.image.load('Image/Tail.png')
+apple_img = pygame.image.load('Image/Apple.png')
 
 screen_color = (0, 0, 0)
 light_green_color = (0, 150, 0)
@@ -16,6 +18,9 @@ size_block = 25
 head_margin = 50
 block_margin = 1
 count_box = 30
+score = 0
+
+font = pygame.font.Font(None, 72)
 
 screen_size = (
     size_block * count_box + 2 * size_block + block_margin * count_box,
@@ -30,6 +35,7 @@ snake = [
     [size_block + block_margin, size_block * 2 + head_margin + block_margin * 2, 180],
     [size_block + block_margin, size_block + head_margin + block_margin, 180]
 ]
+apples = []
 
 screen = pygame.display.set_mode(screen_size)
 clock = pygame.time.Clock()
@@ -75,6 +81,12 @@ while True:
                 snake[0][2] = 0
                 break
 
+    while len(apples) < 10:
+        x = randint(1, 30) * (block_margin + size_block)
+        y = randint(1, 30) * (block_margin + size_block) + head_margin
+        if [x, y] not in apples:
+            apples.append([x, y])
+
     for index in range(len(snake) - 1, 0, -1):
         snake[index][0] = snake[index - 1][0]
         snake[index][1] = snake[index - 1][1]
@@ -88,11 +100,18 @@ while True:
         snake[0][1] += 26
     elif snake[0][2] == 0:
         snake[0][1] -= 26
-    if (snake[0][0] < min_size[0]
-            or snake[0][1] < min_size[1]
-            or snake[0][0] > max_size[0]
-            or snake[0][1] > max_size[1]):
+
+    if (
+        snake[0][0] < min_size[0]
+        or snake[0][1] < min_size[1]
+        or snake[0][0] > max_size[0]
+        or snake[0][1] > max_size[1]
+    ):
         sys.exit()
+
+    for index in range(1, len(snake)):
+        if snake[0][0] == snake[index][0] and snake[0][1] == snake[index][1]:
+            sys.exit()
 
     screen.fill(screen_color)
     create_playing_field(screen)
@@ -109,5 +128,20 @@ while True:
         (snake[len(snake) - 1][0], snake[len(snake) - 1][1])
     )
 
+    for apple in apples:
+        if apple[0] == snake[0][0] and apple[1] == snake[0][1]:
+            score += 1
+            apples.remove(apple)
+            snake.append([snake[len(snake) - 1][2], snake[len(snake) - 1][0], snake[len(snake) - 1][1]])
+
+    for apple in apples:
+        screen.blit(apple_img, (apple[0], apple[1]))
+
+    if tick_time < 30:
+        if score // 10 >= tick_time:
+            tick_time += 1
+
+    text = font.render(f"Score: {score}", True, (0, 100, 0))
+    screen.blit(text, (20, 20))
     pygame.display.flip()
     clock.tick(tick_time)
