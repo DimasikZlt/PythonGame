@@ -208,10 +208,8 @@ def start_the_game():
         clock.tick(speed)
 
 
-menu = pygame_menu.Menu(750, 750, 'Welcome',
+menu = pygame_menu.Menu(750, 750, 'Welcome to the game "Snake"',
                         theme=pygame_menu.themes.THEME_BLUE)
-
-menu.add_text_input('Name :', default='Player 1')
 menu.add_button('Play', start_the_game)
 menu.add_button('Quit', pygame_menu.events.EXIT)
 
