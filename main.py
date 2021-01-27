@@ -11,14 +11,14 @@ def main():
     screen = pygame.display.set_mode((830, 880))
 
     def start_the_game():
-        head = pygame.image.load('Image/Head.png')
-        snake_body = pygame.image.load('Image/Body.png')
-        tale = pygame.image.load('Image/Tail.png')
-        apple_img = pygame.image.load('Image/Apple.png')
-        bomb_img = pygame.image.load('Image/Bomb.png')
-        amanita_img = pygame.image.load('Image/Amanita.png')
-        banana_img = pygame.image.load('Image/Banana.png')
-        ra_img = pygame.image.load('Image/Rainbow_apple.png')
+        head = pygame.image.load('images/Head.png')
+        snake_body = pygame.image.load('images/Body.png')
+        tale = pygame.image.load('images/Tail.png')
+        apple_img = pygame.image.load('images/Apple.png')
+        bomb_img = pygame.image.load('images/Bomb.png')
+        amanita_img = pygame.image.load('images/Amanita.png')
+        banana_img = pygame.image.load('images/Banana.png')
+        ra_img = pygame.image.load('images/Rainbow_apple.png')
 
         screen_color = (0, 0, 0)
         light_green_color = (0, 150, 0)
@@ -51,6 +51,7 @@ def main():
         amanitas = []
         rainbow_apple = []
         is_alive_rainbow_apple = True
+        is_alive_snake = True
         lists = (apples, bananas, bombs, amanitas, rainbow_apple)
         counts_elements = (10, 3, 2, 4, 1)
 
@@ -90,7 +91,7 @@ def main():
                 ):
                     eat_list.append([x, y])
 
-        while True:
+        while is_alive_snake:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     sys.exit()
@@ -139,10 +140,12 @@ def main():
                     or snake[0][0] > max_size[0]
                     or snake[0][1] > max_size[1]
             ):
+                is_alive_snake = False
                 break
 
             for index in range(1, len(snake)):
                 if snake[0][0] == snake[index][0] and snake[0][1] == snake[index][1]:
+                    is_alive_snake = False
                     break
 
             screen.fill(screen_color)
@@ -181,7 +184,7 @@ def main():
 
             for bomb in bombs:
                 if bomb[0] == snake[0][0] and bomb[1] == snake[0][1]:
-                    break
+                    is_alive_snake = False
 
             if rainbow_apple[0][0] == snake[0][0] and rainbow_apple[0][1] == snake[0][1]:
                 score += 10
